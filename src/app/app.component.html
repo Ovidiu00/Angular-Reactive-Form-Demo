@@ -1,0 +1,262 @@
+<div class="container" style="margin-top: 70p">
+  <div class="row mb-5">
+    <div class="col-8 shadow-lg p-0 bg-white">
+      <div class="card">
+        <div class="card-header">
+          <h3>List your Property</h3>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="onSubmit()" [formGroup]="demoForm">
+            <div class="tab-panel">
+              <tabset class="member-tabset" #formTabs>
+                <tab heading="Group1" formGroupName="Group1">
+                  <div class="form-group col-12">
+                    <p>Form Control1 - radiobutton demo</p>
+                    <div
+                      class="btn-group"
+                      btnRadioGroup
+                      formControlName="FormControl1"
+                      [(ngModel)]="preview.FormControl1"
+                    >
+                      <label
+                        *ngFor="let item of formControl1Items"
+                        class="btn btn-outline-primary mr-2"
+                        [btnRadio]="item"
+                        tabindex="0"
+                        role="button"
+                        name="FormControl1"
+                        >{{ item }}
+                      </label>
+                    </div>
+                    <div
+                      class="error-block"
+                      *ngIf="FormControl1.invalid && nextClicked"
+                    >
+                      Please select item
+                    </div>
+                  </div>
+
+                  <div class="form-group col-12">
+                    <label>FormControl2 - input required demo + selection list</label>
+                    <input
+                      type="text"
+                      #searchBox
+                      class="form-control"
+                      formControlName="FormControl2"
+                      [(ngModel)]="preview.FormControl2"
+                      (input)= "SearchItem(searchBox.value)"
+                      (blur) = "HideSelectionList()"
+
+                    />
+                    <div
+                      class="error-block"
+                      *ngIf="
+                        FormControl2.invalid &&
+                        (nextClicked || FormControl2.touched)
+                      "
+                    >
+                      Please select FormControl2
+                    </div>
+                  </div>
+                  <div *ngIf="showItems">
+                    <ul class="selection-list" style="max-height: 300px;overflow:auto">
+                      <li *ngFor="let item of items$ | async"  (click)="SelectItem(item)">
+                        <span>{{item}}</span>
+                      </li>
+                    </ul>
+                  </div>
+
+
+                  <div class="form-group col-12">
+                    <label>FormControl3 - email demo</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="FormControl3"
+                      [(ngModel)]="preview.FormControl3"
+                    />
+
+                    <!-- Email input field validations -->
+                    <div
+                      class="error-block"
+                      *ngIf="
+                        FormControl3.invalid &&
+                        (nextClicked || FormControl3.touched)
+                      "
+                    >
+                      <div *ngIf="FormControl3?.errors?.required">
+                        Email is required.
+                      </div>
+
+                      <div *ngIf="FormControl3?.hasError('email')">
+                        Please provide an valid email.
+                      </div>
+                    </div>
+                    <!-- END -->
+                  </div>
+
+                  <div class="form-group col-12">
+                    <label>FormControl4 - numeric only input demo</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="FormControl4"
+                      [(ngModel)]="preview.FormControl4"
+                    />
+                    <!-- Numeric input field validations -->
+                    <div
+                      class="error-block"
+                      *ngIf="
+                        FormControl4.invalid &&
+                        (nextClicked || FormControl4.touched)
+                      "
+                    >
+                      <div *ngIf="FormControl4?.hasError('pattern')">
+                        Numeric inputs only please!
+                      </div>
+                    </div>
+                    <!-- END -->
+                  </div>
+
+                  <div class="form-group col-12">
+                    <label> FormControl 5 - date input demo </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="FormControl5"
+                      bsDatepicker
+                      [bsConfig]="{
+                        containerClass: 'theme-dark-blue',
+                        dateInputFormat: 'DD-MM-YYYY'
+                      }"
+                      [(ngModel)]="preview.FormControl5"
+                    />
+                  </div>
+
+                  <div class="form-group col-12">
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-block"
+                      (click)="selectTab(1, Group1.valid)"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </tab>
+
+                <tab heading="Group2" formGroupName="Group2">
+                  <div class="form-group col-12">
+                    <label for="passwrod" class="form-label">Password</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="password"
+                    />
+                  </div>
+
+                  <!-- Password input field validations -->
+                  <div
+                    class="error-block"
+                    *ngIf="
+                      password.invalid &&
+                      (nextClicked || password.touched || password.dirty)
+                    "
+                  >
+                    <div *ngIf="password?.errors?.required">
+                      Password is required.
+                    </div>
+
+                    <div *ngIf="password?.hasError('minlength')">
+                      Not enough chars
+                    </div>
+                  </div>
+                  <!-- END -->
+
+                  <div class="form-group col-12">
+                    <label for="cpassword" class="form-label"
+                      >Confirm Password</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="confirmPassword"
+                      [style.border-color]="
+                        demoForm.errors?.passwordsMatching == false ? 'red' : ''
+                      "
+                    />
+                  </div>
+
+                  <!-- Confirm password input field validations -->
+                  <div
+                    class="error-block"
+                    *ngIf="
+                      confirmPassword.invalid &&
+                      (nextClicked ||
+                        confirmPassword.touched ||
+                        confirmPassword.dirty)
+                    "
+                  >
+                    <div *ngIf="confirmPassword?.errors?.required">
+                      Confirm password is required.
+                    </div>
+
+                    <div *ngIf="confirmPassword?.hasError('minlength')">
+                      Not enough chars
+                    </div>
+                  </div>
+                  <div
+                    class="error-block"
+                    *ngIf="
+                      Group2.errors?.passwordsMatching == false &&
+                      confirmPassword?.valid
+                    "
+                  >
+                    Passwords do not match
+                  </div>
+                  <!-- END -->
+
+                  <div class="form-group col-12">
+                    <label for="passwrod" class="form-label"
+                      >Paul not allowed</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="customValidator"
+                    />
+
+                    <button type="submit" class="btn btn-primary btn-block">Save</button>
+                  </div>
+
+                  <!-- Email input field validations -->
+                  <div
+                    class="error-block"
+                    *ngIf="
+                    customValidator.invalid &&
+                      (nextClicked || customValidator.touched)
+                    "
+                  >
+                    <div *ngIf="!Group2.errors?.forbiddenName">
+                      Paul is not allowed
+                    </div>
+                  </div>
+                  <!-- END -->
+                </tab>
+              </tabset>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="card-header">
+        <h3> Preview</h3>
+      </div>
+      <div class="shadow-lg p-3 bg-white">
+        <app-preview [model]="preview"></app-preview>
+      </div>
+    </div>
+  </div>
+</div>
+
+
