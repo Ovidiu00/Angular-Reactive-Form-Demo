@@ -13,7 +13,7 @@ Example of an reactive complex form with inputs separated into multiple tabs.
 
 ## About
 
-My preffered pattern for designing a form that coninsts of multiple inputs , breaking them down in logical groups contained inisde tabs with a side real-time preview of the user's data entry experience.
+My preffered pattern for designing a form that coninsts of multiple inputs , breaking them down into logical groups contained inisde tabs with a real-time preview of the user's data entered
 
-It covers most use-cases of entering data thorugh a form , values beeing validated by angular's built in validoators and custom made validators for  specifit client requirement.
+It covers most use-cases of entering data thorugh a form , values beeing validated by angular's built in validoators and custom made validators for specific client requirements.
 
